@@ -39,24 +39,20 @@ defmodule ExSlp.Server do
     register( service, [], opts )
   end
 
-  def register( service, opts, attrs ) do
-    opts  = Enum.map( opts, fn({ k, v }) -> "-#{k} #{v}" end )
-    attrs = Enum.map( attrs, fn({ k, v }) -> "(#{k}=#{v})" end )
+  def register( service, args, opts ) do
+    args  = Enum.map( args, fn({ k, v }) -> [ "-#{k}", "#{v}" ] end ) |> List.flatten
+    opts = Enum.map( opts, fn({ k, v }) -> "(#{k}=#{v})" end )
          |> Enum.join(",")
 
-    if String.length( attrs ) > 0 do
-      attrs = "\"#{attrs}\""
+    if String.length( opts ) > 0 do
+      opts = "\"#{opts}\""
     end
 
-    service = case Regex.run( ~r/^service\:/, service ) do
-      nil -> "service:#{service}"
-      _   -> service
-    end
-
-    case res = slptool_cmd( :register, [ opts, service, attrs ] |> List.flatten ) do
+    case res = slptool_cmd( args, :register, [ format_servise_url( service ), opts ] ) do
       { :ok, "" } -> res
       { :ok, silent_err } ->
         { :error, silent_err }
+      _ -> res
     end
   end
 
@@ -66,18 +62,27 @@ defmodule ExSlp.Server do
       { :ok, "" } -> res
       { :ok, silent_err } ->
         { :error, silent_err }
+      _ -> res
     end
 
   end
 
-  def deregister( service, opts ) do
-    opts  = Enum.map( opts, fn({ k, v }) -> "-#{k} #{v}" end )
-    slptool_cmd( :deregister, [ opts, service ] |> List.flatten )
+  def deregister( service, args ) do
+    args  = Enum.map( args, fn({ k, v }) -> [ "-#{k}", "#{v}" ] end ) |> List.flatten
+    slptool_cmd( args, :deregister, [ format_servise_url( service ) ] )
   end
 
 
-  defp slptool_cmd( cmd, opts ) do
-    case System.cmd( @slptool, [ cmd | opts ] ) do
+  defp format_servise_url( service ) do
+    case Regex.run( ~r/^service\:/, service ) do
+      nil -> "service:#{service}"
+      _   -> service
+    end
+  end
+
+
+  defp slptool_cmd( args, cmd, opts ) do
+    case System.cmd( @slptool, args ++ [ cmd | opts ] ) do
       { res, 0 } ->
         { :ok, res |> String.strip }
       { err, 1 } -> { :error, err |> String.strip }

@@ -13,8 +13,9 @@ defmodule ExSlpServerTest do
   test "register with incorrect url" do
     service = "service:"
     assert { :ok, _ } = Server.server_status
-    assert { :ok, _ } = Server.register( service )
-    assert { :ok, resp } = Server.deregister( service )
+    assert { :error, error } = Server.register( service )
+    assert Regex.run( ~r/^Invalid\sURL/, error ) != nil
+    assert { :error, _dereg_error } = Server.deregister( service )
   end
 
   test "register with correct url and without options and attrs" do
@@ -29,6 +30,23 @@ defmodule ExSlpServerTest do
     assert { :ok, _ } = Server.server_status
     assert { :ok, _ } = Server.register( service )
     assert { :ok, _ } = Server.deregister( service )
+  end
+
+  test "register with correct url, without options and with attrs" do
+    service = "test_service://localhost"
+    attrs = [ v: 1.01, cluster: :generic, special: "none" ]
+    assert { :ok, _ } = Server.server_status
+    assert { :ok, _ } = Server.register( service, attrs )
+    assert { :ok, _ } = Server.deregister( service )
+  end
+
+  test "register with correct url, with options and attrs" do
+    service = "test_service://localhost"
+    opts = [ l: :en, t: 1024 ]
+    args = [ v: 1.01, cluster: :generic, special: "none" ]
+    assert { :ok, _ } = Server.server_status
+    assert { :ok, _ } = Server.register( service, opts, args )
+    assert { :ok, _ } = Server.deregister( service, args )
   end
 
 end
