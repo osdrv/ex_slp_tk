@@ -1,20 +1,18 @@
 # ExSlp
 
-**TODO: Add description**
+This is an Elixir binding for OpenSLP toolkit.
 
-## Installation
+Wiki says:
+  "The Service Location Protocol (SLP, srvloc) is a service discovery protocol that allows computers and other devices to find services in a local area network without prior configuration. SLP has been designed to scale from small, unmanaged networks to large enterprise networks."
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+Basically it's an interface for slptool command.
 
-  1. Add ex_slp to your list of dependencies in `mix.exs`:
+#### The documentation:
+  * http://www.openslp.org/doc/html/ProgrammersGuide/index.html
+  * http://manpages.ubuntu.com/manpages/gutsy/man1/slptool.1.html
 
-        def deps do
-          [{:ex_slp, "~> 0.0.1"}]
-        end
-
-  2. Ensure ex_slp is started before your application:
-
-        def application do
-          [applications: [:ex_slp]]
-        end
+#### Dependencies:
+  * libslp  v2.0+
+  * slptool v2.0+
+  * Elixir  v1.2+
 
