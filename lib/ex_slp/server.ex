@@ -30,5 +30,49 @@ defmodule ExSlp.Server do
     end
   end
 
+
+  def register( service ) do
+    register( service, [], [] )
+  end
+
+  def register( service, opts ) do
+    register( service, [], opts )
+  end
+
+  def register( service, opts, attrs ) do
+    opts  = Enum.map( opts, fn({ k, v }) -> "-#{k} #{v}" end )
+    attrs = Enum.map( attrs, fn({ k, v }) -> "(#{k}=#{v})" end )
+         |> Enum.join(",")
+
+    if String.length( attrs ) > 0 do
+      attrs = "\"#{attrs}\""
+    end
+
+    service = case Regex.run( ~r/^service\:/, service ) do
+      nil -> "service:#{service}"
+      _   -> service
+    end
+
+    slptool_cmd( :register, [ opts, service, attrs ] |> List.flatten )
+  end
+
+
+  def deregister( service ) do
+    deregister( service, [] )
+  end
+
+  def deregister( service, opts ) do
+    opts  = Enum.map( opts, fn({ k, v }) -> "-#{k} #{v}" end )
+    slptool_cmd( :deregister, [ opts, service ] |> List.flatten )
+  end
+
+
+  defp slptool_cmd( cmd, opts ) do
+    case System.cmd( @slptool, [ cmd | opts ] ) do
+      { res, 0 } -> { :ok, res }
+      { err, 1 } -> { :error, err }
+    end
+  end
+
 end
 
