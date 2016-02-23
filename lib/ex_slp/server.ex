@@ -10,6 +10,7 @@ defmodule ExSlp.Server do
   def toolkit_status do
     case System.find_executable(@slptool) do
       nil -> { :cmd_unknown, "The command #{@slptool} could not be found. Check your $PATH ENV variable." }
+      { error, error_code } -> { :error, error, error_code }
       path ->
         path = String.strip( path )
         case System.cmd( "test", [ "-x", path ] ) do
@@ -17,7 +18,6 @@ defmodule ExSlp.Server do
           { "", 1 } -> { :not_executable, "The file #{path} is not executable for the current user." }
           { error, error_code } -> { :error, error, error_code }
         end
-      { error, error_code } -> { :error, error, error_code }
     end
   end
 
@@ -53,12 +53,21 @@ defmodule ExSlp.Server do
       _   -> service
     end
 
-    slptool_cmd( :register, [ opts, service, attrs ] |> List.flatten )
+    case res = slptool_cmd( :register, [ opts, service, attrs ] |> List.flatten ) do
+      { :ok, "" } -> res
+      { :ok, silent_err } ->
+        { :error, silent_err }
+    end
   end
 
 
   def deregister( service ) do
-    deregister( service, [] )
+    case res = deregister( service, [] ) do
+      { :ok, "" } -> res
+      { :ok, silent_err } ->
+        { :error, silent_err }
+    end
+
   end
 
   def deregister( service, opts ) do
@@ -69,8 +78,9 @@ defmodule ExSlp.Server do
 
   defp slptool_cmd( cmd, opts ) do
     case System.cmd( @slptool, [ cmd | opts ] ) do
-      { res, 0 } -> { :ok, res }
-      { err, 1 } -> { :error, err }
+      { res, 0 } ->
+        { :ok, res |> String.strip }
+      { err, 1 } -> { :error, err |> String.strip }
     end
   end
 
