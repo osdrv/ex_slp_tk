@@ -1,24 +1,11 @@
 defmodule ExSlp.Server do
 
-  @slptool "slptool"
+  alias ExSlp.Tool
+
   @slpd    "slpd"
 
   def sys_status do
-    { toolkit_status(), server_status() }
-  end
-
-  def toolkit_status do
-    case System.find_executable(@slptool) do
-      nil -> { :cmd_unknown, "The command #{@slptool} could not be found. Check your $PATH ENV variable." }
-      { error, error_code } -> { :error, error, error_code }
-      path ->
-        path = String.strip( path )
-        case System.cmd( "test", [ "-x", path ] ) do
-          { "", 0 } -> { :ok, "System is running." }
-          { "", 1 } -> { :not_executable, "The file #{path} is not executable for the current user." }
-          { error, error_code } -> { :error, error, error_code }
-        end
-    end
+    { Tool.status(), server_status() }
   end
 
   def server_status do
@@ -48,7 +35,7 @@ defmodule ExSlp.Server do
       opts = "\"#{opts}\""
     end
 
-    case res = slptool_cmd( args, :register, [ format_servise_url( service ), opts ] ) do
+    case res = Tool.exec_cmd( args, :register, [ format_servise_url( service ), opts ] ) do
       { :ok, "" } -> res
       { :ok, silent_err } ->
         { :error, silent_err }
@@ -69,7 +56,7 @@ defmodule ExSlp.Server do
 
   def deregister( service, args ) do
     args  = Enum.map( args, fn({ k, v }) -> [ "-#{k}", "#{v}" ] end ) |> List.flatten
-    slptool_cmd( args, :deregister, [ format_servise_url( service ) ] )
+    Tool.exec_cmd( args, :deregister, [ format_servise_url( service ) ] )
   end
 
 
@@ -77,15 +64,6 @@ defmodule ExSlp.Server do
     case Regex.run( ~r/^service\:/, service ) do
       nil -> "service:#{service}"
       _   -> service
-    end
-  end
-
-
-  defp slptool_cmd( args, cmd, opts ) do
-    case System.cmd( @slptool, args ++ [ cmd | opts ] ) do
-      { res, 0 } ->
-        { :ok, res |> String.strip }
-      { err, 1 } -> { :error, err |> String.strip }
     end
   end
 
