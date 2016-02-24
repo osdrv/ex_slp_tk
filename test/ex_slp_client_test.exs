@@ -70,5 +70,19 @@ defmodule ExSlpClientTest do
     assert { :ok, _ } = Server.deregister( "#{service_type2}://localhost" )
   end
 
+  test "findscopes finds registered scopes" do
+    args = [ u: "localhost" ]
+    assert { :ok, _ } = Server.status
+    assert { :ok, real_res } = findscopes( args )
+    assert String.contains? real_res, "DEFAULT"
+  end
+
+  test "getproperty returns the value" do
+    args = [ u: "localhost" ]
+    assert { :ok, _ } = Server.status
+    assert { :ok, response } = getproperty( "net.slp.useScopes" )
+    assert response == "DEFAULT"
+  end
+
 end
 

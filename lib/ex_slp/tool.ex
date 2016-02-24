@@ -16,6 +16,8 @@ defmodule ExSlp.Tool do
     end
   end
 
+  def exec_cmd( args, cmd ), do: exec_cmd( args, cmd, [] )
+
   def exec_cmd( args, cmd, opts ) do
     case System.cmd( @slptool, args ++ [ cmd | opts ] ) do
       { res, 0 } ->

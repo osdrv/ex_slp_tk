@@ -33,5 +33,21 @@ defmodule ExSlp.Client do
     Tool.exec_cmd( args, :findsrvtypes, opts )
   end
 
+  def findscopes( args ) do
+    args = format_args args
+    Tool.exec_cmd( args, :findscopes )
+  end
+
+  def getproperty( property ), do: getproperty( property, [] )
+
+  def getproperty( property, args ) do
+    args = format_args args
+    case res = Tool.exec_cmd( args, :getproperty, [ property ] ) do
+      { :ok, response } ->
+        { :ok, String.replace( response, "#{property} = ", "" ) }
+      _ -> res
+    end
+  end
+
 end
 
