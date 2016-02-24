@@ -1,14 +1,11 @@
 defmodule ExSlp.Server do
 
   alias ExSlp.Tool
+  import ExSlp.Util, only: [ format_servise_url: 1 ]
 
-  @slpd    "slpd"
+  @slpd "slpd"
 
-  def sys_status do
-    { Tool.status(), server_status() }
-  end
-
-  def server_status do
+  def status do
     case :os.cmd( :"ps cax | grep #{@slpd} | awk '{print $1}'" ) do
       []  -> { :not_running, "The server doesn't seem to be running." }
       output ->
@@ -43,7 +40,6 @@ defmodule ExSlp.Server do
     end
   end
 
-
   def deregister( service ) do
     case res = deregister( service, [] ) do
       { :ok, "" } -> res
@@ -57,14 +53,6 @@ defmodule ExSlp.Server do
   def deregister( service, args ) do
     args  = Enum.map( args, fn({ k, v }) -> [ "-#{k}", "#{v}" ] end ) |> List.flatten
     Tool.exec_cmd( args, :deregister, [ format_servise_url( service ) ] )
-  end
-
-
-  defp format_servise_url( service ) do
-    case Regex.run( ~r/^service\:/, service ) do
-      nil -> "service:#{service}"
-      _   -> service
-    end
   end
 
 end
