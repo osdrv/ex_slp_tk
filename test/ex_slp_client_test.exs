@@ -1,6 +1,7 @@
 defmodule ExSlpClientTest do
   use ExUnit.Case
   import ExSlp.Client
+  import ExSlp.Util, only: [ format_opts: 1 ]
 
   alias ExSlp.Server
 
@@ -30,6 +31,44 @@ defmodule ExSlpClientTest do
     assert { :ok, _ } = Server.deregister( service )
   end
 
+  test "Should find an attribute of a registered service" do
+    service = "myservice://localhost"
+    args = [ u: "localhost" ]
+    opts = [ v: 1.01, cluster: :generic, special: "none" ]
+    expected_res = format_opts opts
+    assert { :ok, _ } = Server.status
+    assert { :ok, _ } = Server.register( service, [], opts )
+    assert { :ok, real_res } = findattrs( service, args, [] )
+    assert real_res == expected_res
+    assert { :ok, _ } = Server.deregister( service )
+  end
+
+  test "Should get the list of the registered servives" do
+    service_type1 = "myservice1"
+    service_type2 = "myservice2"
+    args = [ u: "localhost" ]
+    assert { :ok, _ } = Server.status
+    assert { :ok, _ } = Server.register( "#{service_type1}://localhost" )
+    assert { :ok, _ } = Server.register( "#{service_type2}://localhost" )
+    assert { :ok, real_res } = findsrvtypes( nil, args )
+    assert String.contains? real_res, [ "service:#{service_type1}", "service:#{service_type2}" ]
+    assert { :ok, _ } = Server.deregister( "#{service_type1}://localhost" )
+    assert { :ok, _ } = Server.deregister( "#{service_type2}://localhost" )
+  end
+
+  test "Should get the list of the registered services with affinity" do
+    service_type1 = "myservice1.aff1"
+    service_type2 = "myservice2.aff2"
+    args = [ u: "localhost" ]
+    assert { :ok, _ } = Server.status
+    assert { :ok, _ } = Server.register( "#{service_type1}://localhost" )
+    assert { :ok, _ } = Server.register( "#{service_type2}://localhost" )
+    assert { :ok, real_res1 } = findsrvtypes( "aff1", args )
+    assert String.contains? real_res1, "service:#{service_type1}"
+    assert String.contains?( real_res1, "service:#{service_type2}" ) == false
+    assert { :ok, _ } = Server.deregister( "#{service_type1}://localhost" )
+    assert { :ok, _ } = Server.deregister( "#{service_type2}://localhost" )
+  end
 
 end
 
