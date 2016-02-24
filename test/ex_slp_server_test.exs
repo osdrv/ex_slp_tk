@@ -42,10 +42,10 @@ defmodule ExSlpServerTest do
 
   test "register with correct url, with options and attrs" do
     service = "test_service://localhost"
-    opts = [ l: :en, t: 1024 ]
-    args = [ v: 1.01, cluster: :generic, special: "none" ]
+    args = [ l: :en, t: 1024 ]
+    opts = [ v: 1.01, cluster: :generic, special: "none" ]
     assert { :ok, _ } = status
-    assert { :ok, _ } = register( service, opts, args )
+    assert { :ok, _ } = register( service, args, opts )
     assert { :ok, _ } = deregister( service, args )
   end
 

@@ -1,7 +1,7 @@
 defmodule ExSlp.Server do
 
   alias ExSlp.Tool
-  import ExSlp.Util, only: [ format_servise_url: 1 ]
+  import ExSlp.Util, only: [ format_servise_url: 1, format_args: 1, format_opts: 1 ]
 
   @slpd "slpd"
 
@@ -14,7 +14,6 @@ defmodule ExSlp.Server do
     end
   end
 
-
   def register( service ) do
     register( service, [], [] )
   end
@@ -24,13 +23,8 @@ defmodule ExSlp.Server do
   end
 
   def register( service, args, opts ) do
-    args  = Enum.map( args, fn({ k, v }) -> [ "-#{k}", "#{v}" ] end ) |> List.flatten
-    opts = Enum.map( opts, fn({ k, v }) -> "(#{k}=#{v})" end )
-         |> Enum.join(",")
-
-    if String.length( opts ) > 0 do
-      opts = "\"#{opts}\""
-    end
+    args = format_args( args )
+    opts = format_opts( opts )
 
     case res = Tool.exec_cmd( args, :register, [ format_servise_url( service ), opts ] ) do
       { :ok, "" } -> res
@@ -51,7 +45,7 @@ defmodule ExSlp.Server do
   end
 
   def deregister( service, args ) do
-    args  = Enum.map( args, fn({ k, v }) -> [ "-#{k}", "#{v}" ] end ) |> List.flatten
+    args = format_args( args )
     Tool.exec_cmd( args, :deregister, [ format_servise_url( service ) ] )
   end
 
