@@ -50,7 +50,8 @@ defmodule ExSlpClientTest do
     assert { :ok, _ } = Server.register( "#{service_type1}://localhost" )
     assert { :ok, _ } = Server.register( "#{service_type2}://localhost" )
     assert { :ok, real_res } = findsrvtypes( nil, args )
-    assert String.contains? real_res, [ "service:#{service_type1}", "service:#{service_type2}" ]
+    assert Enum.member?( real_res, "service:#{service_type1}" )
+    assert Enum.member?( real_res, "service:#{service_type2}" )
     assert { :ok, _ } = Server.deregister( "#{service_type1}://localhost" )
     assert { :ok, _ } = Server.deregister( "#{service_type2}://localhost" )
   end
@@ -63,8 +64,8 @@ defmodule ExSlpClientTest do
     assert { :ok, _ } = Server.register( "#{service_type1}://localhost" )
     assert { :ok, _ } = Server.register( "#{service_type2}://localhost" )
     assert { :ok, real_res1 } = findsrvtypes( "aff1", args )
-    assert String.contains? real_res1, "service:#{service_type1}"
-    assert String.contains?( real_res1, "service:#{service_type2}" ) == false
+    assert Enum.member? real_res1, "service:#{service_type1}"
+    assert Enum.member?( real_res1, "service:#{service_type2}" ) == false
     assert { :ok, _ } = Server.deregister( "#{service_type1}://localhost" )
     assert { :ok, _ } = Server.deregister( "#{service_type2}://localhost" )
   end

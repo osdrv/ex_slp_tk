@@ -47,7 +47,12 @@ defmodule ExSlp.Client do
       nil -> []
       _   -> [ authority ]
     end
-    Tool.exec_cmd( args, :findsrvtypes, opts )
+    case res = Tool.exec_cmd( args, :findsrvtypes, opts ) do
+      { :ok, result } ->
+        { :ok, String.split( result, "\n" ) }
+      _ -> res
+    end
+
   end
 
   def findscopes( args ) do
