@@ -27,6 +27,21 @@ defmodule ExSlpUtilTest do
       [{ "v", "1.01" }, { "cluster", "generic" }, { "special", "none" }]
   end
 
+  test "parse_url should return a keyword list" do
+    url = "service:myservice://127.0.0.1:8080,65535"
+    assert parse_url( url ) == %URI{
+      authority: "127.0.0.1:8080",
+       fragment: nil,
+           host: "127.0.0.1",
+           path: nil,
+           port: 8080,
+          query: nil,
+         scheme: "myservice",
+       userinfo: nil,
+    }
+  end
+
+
 
 end
 

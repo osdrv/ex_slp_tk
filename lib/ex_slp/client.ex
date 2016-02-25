@@ -21,7 +21,6 @@ defmodule ExSlp.Client do
     end
   end
 
-
   def findattrs( url ), do: findattrs( url, [], [] )
 
   def findattrs( url, opts ), do: findattrs( url, [], opts )

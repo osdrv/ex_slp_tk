@@ -23,5 +23,10 @@ defmodule ExSlp.Util do
       |> Enum.map( fn([ _, k, v ]) -> { k, v } end )
   end
 
+  def parse_url( url ) do
+    [ url, ttl ] = url |> String.replace( ~r/^service\:/, "" ) |> String.split(",")
+    URI.parse( url )
+  end
+
 end
 
