@@ -57,7 +57,11 @@ defmodule ExSlp.Client do
 
   def findscopes( args ) do
     args = format_args args
-    Tool.exec_cmd( args, :findscopes )
+    case res = Tool.exec_cmd( args, :findscopes ) do
+      { :ok, result } ->
+        { :ok, String.split( result, "\n" ) }
+      _ -> res
+    end
   end
 
   def getproperty( property ), do: getproperty( property, [] )

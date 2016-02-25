@@ -74,7 +74,7 @@ defmodule ExSlpClientTest do
     args = [ u: "localhost" ]
     assert { :ok, _ } = Server.status
     assert { :ok, real_res } = findscopes( args )
-    assert String.contains? real_res, "DEFAULT"
+    assert Enum.member? real_res, "DEFAULT"
   end
 
   test "getproperty returns the value" do
