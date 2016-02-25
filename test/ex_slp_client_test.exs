@@ -1,7 +1,6 @@
 defmodule ExSlpClientTest do
   use ExUnit.Case
   import ExSlp.Client
-  import ExSlp.Util, only: [ format_opts: 1 ]
 
   alias ExSlp.Server
 
@@ -13,7 +12,7 @@ defmodule ExSlpClientTest do
     expected_res = "service:#{service},65535"
     assert { :ok, _ } = Server.register( service )
     assert { :ok, real_res } = findsrvs( service_type, args, [] )
-    assert expected_res == real_res
+    assert Enum.member?( real_res, expected_res )
     assert { :ok, _ } = Server.deregister( service )
   end
 
@@ -35,7 +34,7 @@ defmodule ExSlpClientTest do
     service = "myservice://localhost"
     args = [ u: "localhost" ]
     opts = [ v: 1.01, cluster: :generic, special: "none" ]
-    expected_res = format_opts opts
+    expected_res = [{ "v", "1.01" }, { "cluster", "generic" }, { "special", "none" }]
     assert { :ok, _ } = Server.status
     assert { :ok, _ } = Server.register( service, [], opts )
     assert { :ok, real_res } = findattrs( service, args, [] )
@@ -78,7 +77,6 @@ defmodule ExSlpClientTest do
   end
 
   test "getproperty returns the value" do
-    args = [ u: "localhost" ]
     assert { :ok, _ } = Server.status
     assert { :ok, response } = getproperty( "net.slp.useScopes" )
     assert response == "DEFAULT"

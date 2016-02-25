@@ -22,5 +22,11 @@ defmodule ExSlpUtilTest do
     assert format_opts( opts ) == "\"(v=1.01),(cluster=generic),(special=none)\""
   end
 
+  test "parse_opts should return the keyword list" do
+    assert parse_opts("\"(v=1.01),(cluster=generic),(special=none)\"") ==
+      [{ "v", "1.01" }, { "cluster", "generic" }, { "special", "none" }]
+  end
+
+
 end
 

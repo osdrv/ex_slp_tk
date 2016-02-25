@@ -18,5 +18,10 @@ defmodule ExSlp.Util do
     end
   end
 
+  def parse_opts( opts_s ) do
+    Regex.scan( ~r/\((.+)=(.+)\)/U, opts_s )
+      |> Enum.map( fn([ _, k, v ]) -> { k, v } end )
+  end
+
 end
 
