@@ -41,7 +41,5 @@ defmodule ExSlpUtilTest do
     }
   end
 
-
-
 end
 
