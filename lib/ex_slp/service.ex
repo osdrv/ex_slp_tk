@@ -1,4 +1,4 @@
-defmodule ExSlp.Node do
+defmodule ExSlp.Service do
   alias ExSlp.Server
   alias ExSlp.Client
   import ExSlp.Util, only: [ parse_url: 1 ]
@@ -23,13 +23,17 @@ defmodule ExSlp.Node do
     case res = Client.findsrvs( @service, args, opts ) do
       { :ok, result } ->
         my_authority = Atom.to_string Node.self
-        IO.inspect result
         result
           |> Enum.reject( fn( url ) ->
             Map.get( parse_url( url ), :authority ) == my_authority
           end )
       _ -> res
     end
+  end
+
+  def connect( service_url ) do
+    %URI{ authority: authority } = parse_url( service_url )
+    Node.connect String.to_atom( authority )
   end
 
   defp service_url do
