@@ -23,6 +23,7 @@ defmodule ExSlp.Node do
     case res = Client.findsrvs( @service, args, opts ) do
       { :ok, result } ->
         my_authority = Atom.to_string Node.self
+        IO.inspect result
         result
           |> Enum.reject( fn( url ) ->
             Map.get( parse_url( url ), :authority ) == my_authority

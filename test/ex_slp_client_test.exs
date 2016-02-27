@@ -30,6 +30,14 @@ defmodule ExSlpClientTest do
     assert { :ok, _ } = Server.deregister( service )
   end
 
+  test "Should not return an empty string in an empty response" do
+    assert { :ok, _ } = Server.status
+    service_type = "the_one_i_never_register"
+    args = [ u: "localhost" ]
+    assert { :ok, real_res } = findsrvs( service_type, args, [] )
+    assert real_res == []
+  end
+
   test "Should find an attribute of a registered service" do
     service = "myservice://localhost"
     args = [ u: "localhost" ]
@@ -42,7 +50,7 @@ defmodule ExSlpClientTest do
     assert { :ok, _ } = Server.deregister( service )
   end
 
-  test "Should get the list of the registered servives" do
+  test "Should get the list of the registered services" do
     service_type1 = "myservice1"
     service_type2 = "myservice2"
     args = [ u: "localhost" ]
@@ -54,6 +62,13 @@ defmodule ExSlpClientTest do
     assert Enum.member?( real_res, "service:#{service_type2}" )
     assert { :ok, _ } = Server.deregister( "#{service_type1}://localhost" )
     assert { :ok, _ } = Server.deregister( "#{service_type2}://localhost" )
+  end
+
+  test "findsrvtypes should not return an empty string in an empty result" do
+    args = [ u: "localhost" ]
+    assert { :ok, _ } = Server.status
+    assert { :ok, real_res } = findsrvtypes( nil, args )
+    assert real_res == []
   end
 
   test "Should get the list of the registered services with affinity" do

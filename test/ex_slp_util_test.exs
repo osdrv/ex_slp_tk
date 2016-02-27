@@ -41,5 +41,10 @@ defmodule ExSlpUtilTest do
     }
   end
 
+  test "compact should remove all the empty elements from the array" do
+    arr = [ nil, 1, -1, "0", 0, "", [], %{}, {} ]
+    assert compact( arr ) == [ 1, -1, "0", [], %{}, {} ]
+  end
+
 end
 

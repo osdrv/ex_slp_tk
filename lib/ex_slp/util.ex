@@ -28,5 +28,14 @@ defmodule ExSlp.Util do
     URI.parse( url )
   end
 
+  def compact([]), do: []
+  def compact([ el | tail ]) do
+    if el != "" && el != nil && el != 0 && el != false do
+      [ el | compact( tail ) ]
+    else
+      compact( tail )
+    end
+  end
+
 end
 
