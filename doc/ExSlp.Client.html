@@ -93,8 +93,8 @@ Takes <code class="inline">service_url</code> as a mandatory parameter,
 <code class="inline">args</code> and <code class="inline">opts</code> keyword lists as optional arguments.
 See ExSlp.Client.findsrvs/3 for details on <code class="inline">args</code> and <code class="inline">opts</code>.
 Returns:</p>
-<pre><code class="elixir">{ :ok, [ ( { &quot;key1&quot;, &quot;val1&quot; }(, { &quot;key2&quot;, &quot;val2 }(, ... ) ) ) ] in case of success,
-{ :error, message } otherwise.</code></pre>
+<pre><code class="elixir">{ :ok, [ ( { &quot;key1&quot;, &quot;val1&quot; }(, { &quot;key2&quot;, &quot;val2 }(, ... ) ) ) ] # in case of success,
+{ :error, message } # otherwise.</code></pre>
 <p>Example:</p>
 <pre><code class="elixir">&gt; ExSlp.Server.register(&quot;myservice://127.0.0.1&quot;, [ attr1: &quot;val1&quot;, attr2: &quot;val2&quot; ])
 {:ok, &quot;&quot;}
@@ -122,9 +122,9 @@ Returns:</p>
   
     <div class="summary-synopsis"><p>Finds all the scopes specified by the services.
 Takes a standard <code class="inline">args</code> keyword list.
-Returns:
-  { :ok, [ ( scope1(, scope2(, ...) ) ) ] in case of success,
-  { :error, message } otherwise</p>
+Returns:</p>
+<pre><code class="elixir">{ :ok, [ ( scope1(, scope2(, ...) ) ) ] # in case of success,
+{ :error, message } # otherwise</code></pre>
 </div>
   
 </div>
@@ -151,8 +151,8 @@ i: a comma-separated list of interfaces
 u: specifies a single interface</code></pre>
 <p><code class="inline">opts</code>
 Returns:</p>
-<pre><code class="elixir">{ :ok, [ ( service_url1(, service_url2(, ...) ) ) ] } in case of success,
-{ :error, message } otherwise.</code></pre>
+<pre><code class="elixir">{ :ok, [ ( service_url1(, service_url2(, ...) ) ) ] } # in case of success,
+{ :error, message } # otherwise.</code></pre>
 <p>Examples:</p>
 <pre><code class="elixir">findsrvs( &quot;myservice&quot; )
 findsrvs( &quot;service:myservice&quot;, [ attr1: value1, attr2: value2 ] )
@@ -187,8 +187,8 @@ Takes <code class="inline">authority</code> and <code class="inline">args</code>
 <code class="inline">args</code> is a regular slptool keyword list, see ExSlp.Client.findsrvs/3
 for more details.
 Returns:</p>
-<pre><code class="elixir">{ :ok, [ ( service_type1(, service_type2(, ...) ) ) ] in case of success,
-{ :error, message } otherwise.</code></pre>
+<pre><code class="elixir">{ :ok, [ ( service_type1(, service_type2(, ...) ) ) ] # in case of success,
+{ :error, message } # otherwise.</code></pre>
 <p>Example:</p>
 <pre><code class="elixir">&gt; ExSlp.Server.register &quot;myservice1://127.0.0.1&quot;
 {:ok, &quot;&quot;}
@@ -223,9 +223,9 @@ Returns:</p>
     <div class="summary-synopsis"><p>Reads the property of the local service.
 Takes a mandatory <code class="inline">property</code> parameter and <code class="inline">args</code> as a list of
 slptool arguments.
-Returns:
-  { :ok, property_value } in case of success,
-  { :error, message } otherwise</p>
+Returns:</p>
+<pre><code class="elixir">{ :ok, property_value } # in case of success,
+{ :error, message } # otherwise</code></pre>
 </div>
   
 </div>
@@ -272,8 +272,8 @@ Takes <code class="inline">service_url</code> as a mandatory parameter,
 <code class="inline">args</code> and <code class="inline">opts</code> keyword lists as optional arguments.
 See ExSlp.Client.findsrvs/3 for details on <code class="inline">args</code> and <code class="inline">opts</code>.
 Returns:</p>
-<pre><code class="elixir">{ :ok, [ ( { &quot;key1&quot;, &quot;val1&quot; }(, { &quot;key2&quot;, &quot;val2 }(, ... ) ) ) ] in case of success,
-{ :error, message } otherwise.</code></pre>
+<pre><code class="elixir">{ :ok, [ ( { &quot;key1&quot;, &quot;val1&quot; }(, { &quot;key2&quot;, &quot;val2 }(, ... ) ) ) ] # in case of success,
+{ :error, message } # otherwise.</code></pre>
 <p>Example:</p>
 <pre><code class="elixir">&gt; ExSlp.Server.register(&quot;myservice://127.0.0.1&quot;, [ attr1: &quot;val1&quot;, attr2: &quot;val2&quot; ])
 {:ok, &quot;&quot;}
@@ -320,9 +320,9 @@ Returns:</p>
   <section class="docstring">
     <p>Finds all the scopes specified by the services.
 Takes a standard <code class="inline">args</code> keyword list.
-Returns:
-  { :ok, [ ( scope1(, scope2(, ...) ) ) ] in case of success,
-  { :error, message } otherwise.</p>
+Returns:</p>
+<pre><code class="elixir">{ :ok, [ ( scope1(, scope2(, ...) ) ) ] # in case of success,
+{ :error, message } # otherwise.</code></pre>
 
   </section>
 </div>
@@ -361,8 +361,8 @@ i: a comma-separated list of interfaces
 u: specifies a single interface</code></pre>
 <p><code class="inline">opts</code>
 Returns:</p>
-<pre><code class="elixir">{ :ok, [ ( service_url1(, service_url2(, ...) ) ) ] } in case of success,
-{ :error, message } otherwise.</code></pre>
+<pre><code class="elixir">{ :ok, [ ( service_url1(, service_url2(, ...) ) ) ] } # in case of success,
+{ :error, message } # otherwise.</code></pre>
 <p>Examples:</p>
 <pre><code class="elixir">findsrvs( &quot;myservice&quot; )
 findsrvs( &quot;service:myservice&quot;, [ attr1: value1, attr2: value2 ] )
@@ -416,8 +416,8 @@ Takes <code class="inline">authority</code> and <code class="inline">args</code>
 <code class="inline">args</code> is a regular slptool keyword list, see ExSlp.Client.findsrvs/3
 for more details.
 Returns:</p>
-<pre><code class="elixir">{ :ok, [ ( service_type1(, service_type2(, ...) ) ) ] in case of success,
-{ :error, message } otherwise.</code></pre>
+<pre><code class="elixir">{ :ok, [ ( service_type1(, service_type2(, ...) ) ) ] # in case of success,
+{ :error, message } # otherwise.</code></pre>
 <p>Example:</p>
 <pre><code class="elixir">&gt; ExSlp.Server.register &quot;myservice1://127.0.0.1&quot;
 {:ok, &quot;&quot;}
@@ -471,9 +471,9 @@ Returns:</p>
     <p>Reads the property of the local service.
 Takes a mandatory <code class="inline">property</code> parameter and <code class="inline">args</code> as a list of
 slptool arguments.
-Returns:
-  { :ok, property_value } in case of success,
-  { :error, message } otherwise.</p>
+Returns:</p>
+<pre><code class="elixir">{ :ok, property_value } # in case of success,
+{ :error, message } # otherwise.</code></pre>
 
   </section>
 </div>

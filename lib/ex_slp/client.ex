@@ -22,8 +22,8 @@ defmodule ExSlp.Client do
       u: specifies a single interface
   `opts`
   Returns:
-      { :ok, [ ( service_url1(, service_url2(, ...) ) ) ] } in case of success,
-      { :error, message } otherwise.
+      { :ok, [ ( service_url1(, service_url2(, ...) ) ) ] } # in case of success,
+      { :error, message } # otherwise.
   Examples:
       findsrvs( "myservice" )
       findsrvs( "service:myservice", [ attr1: value1, attr2: value2 ] )
@@ -50,8 +50,8 @@ defmodule ExSlp.Client do
   `args` and `opts` keyword lists as optional arguments.
   See ExSlp.Client.findsrvs/3 for details on `args` and `opts`.
   Returns:
-      { :ok, [ ( { "key1", "val1" }(, { "key2", "val2 }(, ... ) ) ) ] in case of success,
-      { :error, message } otherwise.
+      { :ok, [ ( { "key1", "val1" }(, { "key2", "val2 }(, ... ) ) ) ] # in case of success,
+      { :error, message } # otherwise.
   Example:
       > ExSlp.Server.register("myservice://127.0.0.1", [ attr1: "val1", attr2: "val2" ])
       {:ok, ""}
@@ -78,8 +78,8 @@ defmodule ExSlp.Client do
   `args` is a regular slptool keyword list, see ExSlp.Client.findsrvs/3
   for more details.
   Returns:
-      { :ok, [ ( service_type1(, service_type2(, ...) ) ) ] in case of success,
-      { :error, message } otherwise.
+      { :ok, [ ( service_type1(, service_type2(, ...) ) ) ] # in case of success,
+      { :error, message } # otherwise.
   Example:
       > ExSlp.Server.register "myservice1://127.0.0.1"
       {:ok, ""}
@@ -112,8 +112,8 @@ defmodule ExSlp.Client do
   Finds all the scopes specified by the services.
   Takes a standard `args` keyword list.
   Returns:
-    { :ok, [ ( scope1(, scope2(, ...) ) ) ] in case of success,
-    { :error, message } otherwise.
+      { :ok, [ ( scope1(, scope2(, ...) ) ) ] # in case of success,
+      { :error, message } # otherwise.
   """
   def findscopes, do: findscopes([])
   def findscopes( args ) do
@@ -130,8 +130,8 @@ defmodule ExSlp.Client do
   Takes a mandatory `property` parameter and `args` as a list of
   slptool arguments.
   Returns:
-    { :ok, property_value } in case of success,
-    { :error, message } otherwise.
+      { :ok, property_value } # in case of success,
+      { :error, message } # otherwise.
   """
   def getproperty( property ), do: getproperty( property, [] )
   def getproperty( property, args ) do

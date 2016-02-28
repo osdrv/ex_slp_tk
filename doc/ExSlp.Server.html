@@ -87,6 +87,18 @@
     <a href="#deregister/1">deregister(service)</a>
   </div>
   
+    <div class="summary-synopsis"><p>Deregisters the service which has been registered earlier.
+  You should call this method every time the application
+  is about to be terminated. The service won’t be automatically
+  deregistered.
+  Takes <code class="inline">service</code> as a mandatory argument, the same you used
+  to register the service.
+  <code class="inline">args</code> is a standard openslp keyword list.
+  Returns:</p>
+<pre><code class="elixir">  { :ok, resp } # in case of success
+  { :error, reason } # otherwise</code></pre>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -98,6 +110,26 @@
   <div class="summary-signature">
     <a href="#register/1">register(service)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Registers the service in the local network.
+Takes the <code class="inline">service</code> specification as a mandatory argument,
+<code class="inline">args</code> and <code class="inline">opts</code> as a standard keyword lists (see ExSlp.Client.findsrvs for
+more info on <code class="inline">args</code>.
+This is the place you should specify the service attributes.
+Check the original documentation for more service internals:
+<a href="http://www.openslp.org/doc/html/ProgrammersGuide/SLPReg.html">http://www.openslp.org/doc/html/ProgrammersGuide/SLPReg.html</a>
+Please keep in mind the slpd instance won’t track the initiator
+status and moreover it knows nothing about it.
+It’s initiator’s responsibility to deregister the service
+it registers.
+Returns:</p>
+<pre><code class="elixir">{ :ok, resp } # in case of success,
+{ :error, message } # otherwise.</code></pre>
+<p>Example: </p>
+<pre><code class="elixir">register( &quot;myservice://192.168.0.10&quot; )
+register( &quot;service:myservice.xyz://192.168.0.10&quot;, [ attr1: val1, att2: val2 ] )
+register( &quot;service:myservice.xyz://192.168.0.10&quot;, [ l: &quot;en&quot;, t: 60 * 60], [] )</code></pre>
+</div>
   
 </div>
 <div class="summary-row">
@@ -116,6 +148,12 @@
   <div class="summary-signature">
     <a href="#status/0">status()</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Checks the status of slpd daemon.
+Returns:</p>
+<pre><code class="elixir">{ :ok, pid } # in case of success,
+{ :not_running, message } # otherwise</code></pre>
+</div>
   
 </div>
 
@@ -149,7 +187,17 @@
   </div>
   
   <section class="docstring">
-    
+    <p>  Deregisters the service which has been registered earlier.
+  You should call this method every time the application
+  is about to be terminated. The service won’t be automatically
+  deregistered.
+  Takes <code class="inline">service</code> as a mandatory argument, the same you used
+  to register the service.
+  <code class="inline">args</code> is a standard openslp keyword list.
+  Returns:</p>
+<pre><code class="elixir">  { :ok, resp } # in case of success
+  { :error, reason } # otherwise</code></pre>
+
   </section>
 </div>
 <div class="detail" id="deregister/2">
@@ -175,7 +223,25 @@
   </div>
   
   <section class="docstring">
-    
+    <p>Registers the service in the local network.
+Takes the <code class="inline">service</code> specification as a mandatory argument,
+<code class="inline">args</code> and <code class="inline">opts</code> as a standard keyword lists (see ExSlp.Client.findsrvs for
+more info on <code class="inline">args</code>.
+This is the place you should specify the service attributes.
+Check the original documentation for more service internals:
+<a href="http://www.openslp.org/doc/html/ProgrammersGuide/SLPReg.html">http://www.openslp.org/doc/html/ProgrammersGuide/SLPReg.html</a>
+Please keep in mind the slpd instance won’t track the initiator
+status and moreover it knows nothing about it.
+It’s initiator’s responsibility to deregister the service
+it registers.
+Returns:</p>
+<pre><code class="elixir">{ :ok, resp } # in case of success,
+{ :error, message } # otherwise.</code></pre>
+<p>Example: </p>
+<pre><code class="elixir">register( &quot;myservice://192.168.0.10&quot; )
+register( &quot;service:myservice.xyz://192.168.0.10&quot;, [ attr1: val1, att2: val2 ] )
+register( &quot;service:myservice.xyz://192.168.0.10&quot;, [ l: &quot;en&quot;, t: 60 * 60], [] )</code></pre>
+
   </section>
 </div>
 <div class="detail" id="register/2">
@@ -214,7 +280,11 @@
   </div>
   
   <section class="docstring">
-    
+    <p>Checks the status of slpd daemon.
+Returns:</p>
+<pre><code class="elixir">{ :ok, pid } # in case of success,
+{ :not_running, message } # otherwise.</code></pre>
+
   </section>
 </div>
 
