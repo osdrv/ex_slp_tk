@@ -2,6 +2,14 @@ defmodule ExSlp.Tool do
 
   @slptool "slptool"
 
+  @doc """
+  Checks the status of `slptool` on the current system.
+  Returns:
+      { :ok, message } # in case of success
+      { :not_executable, message }
+      # in case the tool is installed but is not executable by the current user
+      { :error, message } # otherwise
+  """
   def status do
     case System.find_executable(@slptool) do
       nil -> { :cmd_unknown, "The command #{@slptool} could not be found. Check your $PATH ENV variable." }
@@ -16,8 +24,14 @@ defmodule ExSlp.Tool do
     end
   end
 
+  @doc """
+  Executes `slptool` command `cmd` with `args` as
+  command arguments and `opts` as the list of post-command options.
+  Returns:
+      { :ok, response } # in case of success,
+      { :error, message } # otherwise.
+  """
   def exec_cmd( args, cmd ), do: exec_cmd( args, cmd, [] )
-
   def exec_cmd( args, cmd, opts ) do
     case System.cmd( @slptool, args ++ [ cmd | opts ] ) do
       { res, 0 } ->

@@ -87,6 +87,13 @@
     <a href="#exec_cmd/2">exec_cmd(args, cmd)</a>
   </div>
   
+    <div class="summary-synopsis"><p>Executes <code class="inline">slptool</code> command <code class="inline">cmd</code> with <code class="inline">args</code> as
+command arguments and <code class="inline">opts</code> as the list of post-command options.
+Returns:</p>
+<pre><code class="elixir">{ :ok, response } # in case of success,
+{ :error, message } # otherwise</code></pre>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -98,6 +105,14 @@
   <div class="summary-signature">
     <a href="#status/0">status()</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Checks the status of <code class="inline">slptool</code> on the current system.
+Returns:</p>
+<pre><code class="elixir">{ :ok, message } # in case of success
+{ :not_executable, message }
+# in case the tool is installed but is not executable by the current user
+{ :error, message } # otherwise</code></pre>
+</div>
   
 </div>
 
@@ -131,7 +146,12 @@
   </div>
   
   <section class="docstring">
-    
+    <p>Executes <code class="inline">slptool</code> command <code class="inline">cmd</code> with <code class="inline">args</code> as
+command arguments and <code class="inline">opts</code> as the list of post-command options.
+Returns:</p>
+<pre><code class="elixir">{ :ok, response } # in case of success,
+{ :error, message } # otherwise.</code></pre>
+
   </section>
 </div>
 <div class="detail" id="exec_cmd/3">
@@ -157,7 +177,13 @@
   </div>
   
   <section class="docstring">
-    
+    <p>Checks the status of <code class="inline">slptool</code> on the current system.
+Returns:</p>
+<pre><code class="elixir">{ :ok, message } # in case of success
+{ :not_executable, message }
+# in case the tool is installed but is not executable by the current user
+{ :error, message } # otherwise</code></pre>
+
   </section>
 </div>
 

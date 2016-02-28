@@ -87,11 +87,18 @@
     <a href="#compact/1">compact(list)</a>
   </div>
   
+    <div class="summary-synopsis"><p>Compacts an Enumerable instance</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#format_args/1">format_args(args)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Takes a keyword list and formats it as a command line arguments like:
+[ "-arg1", "val1", "-arg2", "val2", ... ]</p>
+</div>
   
 </div>
 <div class="summary-row">
@@ -99,11 +106,19 @@
     <a href="#format_opts/1">format_opts(opts)</a>
   </div>
   
+    <div class="summary-synopsis"><p>Takes a keyword list and formats it as slptool opts list:
+“(arg1=val1),(arg2=val2)”</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#format_servise_url/1">format_servise_url(service)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Formats the service url and makes it look like:
+service:myservice://</p>
+</div>
   
 </div>
 <div class="summary-row">
@@ -111,11 +126,18 @@
     <a href="#parse_opts/1">parse_opts(opts_s)</a>
   </div>
   
+    <div class="summary-synopsis"><p>Takes a string of slptool opts and returns a keyword list</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#parse_url/1">parse_url(url)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>The normal URI.parse which truncates the “service:” preffix and
+the lifetime postfix</p>
+</div>
   
 </div>
 
@@ -149,7 +171,8 @@
   </div>
   
   <section class="docstring">
-    
+    <p>Compacts an Enumerable instance.</p>
+
   </section>
 </div>
 <div class="detail" id="format_args/1">
@@ -162,7 +185,9 @@
   </div>
   
   <section class="docstring">
-    
+    <p>Takes a keyword list and formats it as a command line arguments like:
+[ "-arg1", "val1", "-arg2", "val2", ... ]</p>
+
   </section>
 </div>
 <div class="detail" id="format_opts/1">
@@ -175,7 +200,9 @@
   </div>
   
   <section class="docstring">
-    
+    <p>Takes a keyword list and formats it as slptool opts list:
+“(arg1=val1),(arg2=val2)”</p>
+
   </section>
 </div>
 <div class="detail" id="format_servise_url/1">
@@ -188,7 +215,9 @@
   </div>
   
   <section class="docstring">
-    
+    <p>Formats the service url and makes it look like:
+service:myservice://…</p>
+
   </section>
 </div>
 <div class="detail" id="parse_opts/1">
@@ -201,7 +230,8 @@
   </div>
   
   <section class="docstring">
-    
+    <p>Takes a string of slptool opts and returns a keyword list. </p>
+
   </section>
 </div>
 <div class="detail" id="parse_url/1">
@@ -214,7 +244,9 @@
   </div>
   
   <section class="docstring">
-    
+    <p>The normal URI.parse which truncates the “service:” preffix and
+the lifetime postfix.</p>
+
   </section>
 </div>
 
