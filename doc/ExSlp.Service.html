@@ -1,0 +1,409 @@
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.11.4">
+    <title>ExSlp.Service – ex_slp v0.0.1</title>
+    <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
+    <script src="dist/sidebar_items.js"></script>
+  </head>
+  <body data-type="modules">
+
+    <div class="main">
+<button class="sidebar-toggle">
+  <i class="icon-menu"></i>
+</button>
+<section class="sidebar">
+  <button class="sidebar-toggle">
+    <i class="icon-menu"></i>
+  </button>
+
+  
+  <a href="api-reference.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        ex_slp
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v0.0.1
+      </h2>
+    </div>
+    
+  </a>
+
+  <div class="sidebar-search">
+    <i class="icon-search"></i>
+    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+    
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
+
+    
+
+    
+  </ul>
+
+  <ul id="full-list" class="sidebar-fullList"></ul>
+  <div class="sidebar-noResults"></div>
+</section>
+
+<section class="content">
+  <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">ex_slp v0.0.1</small>
+        ExSlp.Service
+        
+        
+      </h1>
+
+      
+
+      
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <i class="icon-link"></i>
+            </a>
+            Summary
+          </h1>
+          
+
+          
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#connect/1">connect(service_url)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Connects the 2 erlang nodes using the native Node.connect method.
+Takes <code class="inline">service_url</code> parameter which is either a regular node url
+or the fully qualified URL returned by ExSlp.Service.discover.
+Returns: see Node.connect/1</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#deregister/0">deregister()</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Cancells the service registration initialized by
+ExSlp.Service.register command.
+Takes an optional list of slptool command arhuments.
+Make sure to call the method before the app termination.
+The service would remain registered otherwise.
+Returns:</p>
+<pre><code class="elixir">{ :ok, :resp } in case of success
+{ :error, message } otherwise</code></pre>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#deregister/1">deregister(args)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#discover/0">discover()</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Sends a lookup multicast/broafcast(depends on the slpd settings,
+check net.slp.isBroadcastOnly property) request and returns the
+list of the registered <code class="inline">exslp</code> services.
+Takes 2 optional keyword list parameters: slptool arguments
+and the service options.
+For more info on args see ExSlp.Server.register/3.
+For more info on opts see ExSlp.Server.register/3.
+Returns an array of the refistered service URLs filtering
+out the current node authority.
+Example:
+Given there are 2 nodes one@192.168.0.10 and two@192.168.0.20.
+Each registers itself as an exslp service.
+For node one the method returns</p>
+<pre><code class="elixir">[&quot;service:exslp://two@192.168.0.20,65535&quot;]</code></pre>
+<p>For node two the metod returns</p>
+<pre><code class="elixir">[&quot;service:exslp://one@192.168.0.10,65535&quot;]</code></pre>
+<p>The URLs returned are accepted as <code class="inline">service_url</code> parameter
+in ExSlp.Service.connect/1 method</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#discover/1">discover(opts)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#discover/2">discover(args, opts)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#register/0">register()</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Registers a new SLP service with type <code class="inline">exslp</code> using
+the current Node name as the authority.
+Takes 2 optional keyword list parameters: slptool arguments
+and the service options.
+For more info on args see ExSlp.Server.register/3.
+For more info on opts see ExSlp.Server.register/3.
+Example: given the node name</p>
+<pre><code class="elixir">node@192.168.0.10</code></pre>
+<p>the service URL will look like:</p>
+<pre><code class="elixir">service:exslp://node@192.168.0.10.</code></pre>
+<p>After being registered the node might be discovered by
+service type <code class="inline">exslp</code>.
+Make sure to call ExSlp.deregister/3 before the app termination
+in order to cancel the registration.
+slptool always use net.slp.watchRegistrationPID = false option
+to connect slpd.
+Returns</p>
+<pre><code class="elixir">{ :ok, resp } in case of success
+{ :error, message } otherwise</code></pre>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#register/1">register(opts)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#register/2">register(args, opts)</a>
+  </div>
+  
+</div>
+
+  </div>
+
+
+          
+
+          
+
+        </section>
+      
+
+      
+
+      
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <i class="icon-link"></i>
+            </a>
+            Functions
+          </h1>
+          <div class="detail" id="connect/1">
+  <div class="detail-header">
+    <a href="#connect/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">connect(service_url)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Connects the 2 erlang nodes using the native Node.connect method.
+Takes <code class="inline">service_url</code> parameter which is either a regular node url
+or the fully qualified URL returned by ExSlp.Service.discover.
+Returns: see Node.connect/1.</p>
+
+  </section>
+</div>
+<div class="detail" id="deregister/0">
+  <div class="detail-header">
+    <a href="#deregister/0" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">deregister()</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Cancells the service registration initialized by
+ExSlp.Service.register command.
+Takes an optional list of slptool command arhuments.
+Make sure to call the method before the app termination.
+The service would remain registered otherwise.
+Returns:</p>
+<pre><code class="elixir">{ :ok, :resp } in case of success
+{ :error, message } otherwise.</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="deregister/1">
+  <div class="detail-header">
+    <a href="#deregister/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">deregister(args)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="discover/0">
+  <div class="detail-header">
+    <a href="#discover/0" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">discover()</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Sends a lookup multicast/broafcast(depends on the slpd settings,
+check net.slp.isBroadcastOnly property) request and returns the
+list of the registered <code class="inline">exslp</code> services.
+Takes 2 optional keyword list parameters: slptool arguments
+and the service options.
+For more info on args see ExSlp.Server.register/3.
+For more info on opts see ExSlp.Server.register/3.
+Returns an array of the refistered service URLs filtering
+out the current node authority.
+Example:
+Given there are 2 nodes one@192.168.0.10 and two@192.168.0.20.
+Each registers itself as an exslp service.
+For node one the method returns</p>
+<pre><code class="elixir">[&quot;service:exslp://two@192.168.0.20,65535&quot;]</code></pre>
+<p>For node two the metod returns</p>
+<pre><code class="elixir">[&quot;service:exslp://one@192.168.0.10,65535&quot;]</code></pre>
+<p>The URLs returned are accepted as <code class="inline">service_url</code> parameter
+in ExSlp.Service.connect/1 method.</p>
+
+  </section>
+</div>
+<div class="detail" id="discover/1">
+  <div class="detail-header">
+    <a href="#discover/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">discover(opts)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="discover/2">
+  <div class="detail-header">
+    <a href="#discover/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">discover(args, opts)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="register/0">
+  <div class="detail-header">
+    <a href="#register/0" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">register()</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Registers a new SLP service with type <code class="inline">exslp</code> using
+the current Node name as the authority.
+Takes 2 optional keyword list parameters: slptool arguments
+and the service options.
+For more info on args see ExSlp.Server.register/3.
+For more info on opts see ExSlp.Server.register/3.
+Example: given the node name</p>
+<pre><code class="elixir">node@192.168.0.10</code></pre>
+<p>the service URL will look like:</p>
+<pre><code class="elixir">service:exslp://node@192.168.0.10.</code></pre>
+<p>After being registered the node might be discovered by
+service type <code class="inline">exslp</code>.
+Make sure to call ExSlp.deregister/3 before the app termination
+in order to cancel the registration.
+slptool always use net.slp.watchRegistrationPID = false option
+to connect slpd.
+Returns</p>
+<pre><code class="elixir">{ :ok, resp } in case of success
+{ :error, message } otherwise.</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="register/1">
+  <div class="detail-header">
+    <a href="#register/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">register(opts)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="register/2">
+  <div class="detail-header">
+    <a href="#register/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">register(args, opts)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+
+        </section>
+      
+
+      
+
+      
+        <footer class="footer">
+      <p>
+        <span class="line">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.11.4),
+        </span>
+        <span class="line">
+          designed by
+          <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+      </p>
+      <button class="night-mode-toggle" />
+    </footer>
+  </div>
+</section>
+</div>
+  <script src="dist/app-6d2e071366.js"></script>
+  </body>
+</html>
+

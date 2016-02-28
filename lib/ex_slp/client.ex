@@ -15,20 +15,20 @@ defmodule ExSlp.Client do
   Takes `service_type` as a mandatory parameter,
   `args` and `opts` keyword lists as optional arguments.
   Allowed `args` keys:
-    s: scopes, a comma-separated list of scopes
-    l: language tag
-    t: lifetame tag
-    i: a comma-separated list of interfaces
-    u: specifies a single interface
+      s: scopes, a comma-separated list of scopes
+      l: language tag
+      t: lifetame tag
+      i: a comma-separated list of interfaces
+      u: specifies a single interface
   `opts`
   Returns:
-    { :ok, [ ( service_url1(, service_url2(, ...) ) ) ] } in case of success,
-    { :error, message } otherwise.
+      { :ok, [ ( service_url1(, service_url2(, ...) ) ) ] } in case of success,
+      { :error, message } otherwise.
   Examples:
-    findsrvs( "myservice" )
-    findsrvs( "service:myservice", [ attr1: value1, attr2: value2 ] )
-    findsrvs( "myservice", [ i: "10.77.13.240,192.168.250.240" ], [] )
-    findsrvs( "service:myservice", [ u: "10.77.13.237" ], [ attr1: value1 ] )
+      findsrvs( "myservice" )
+      findsrvs( "service:myservice", [ attr1: value1, attr2: value2 ] )
+      findsrvs( "myservice", [ i: "10.77.13.240,192.168.250.240" ], [] )
+      findsrvs( "service:myservice", [ u: "10.77.13.237" ], [ attr1: value1 ] )
   See http://www.openslp.org/doc/html/ProgrammersGuide/SLPFindSrvs.html
   for more method internals.
   """
@@ -50,13 +50,13 @@ defmodule ExSlp.Client do
   `args` and `opts` keyword lists as optional arguments.
   See ExSlp.Client.findsrvs/3 for details on `args` and `opts`.
   Returns:
-    { :ok, [ ( { "key1", "val1" }(, { "key2", "val2 }(, ... ) ) ) ] in case of success,
-    { :error, message } otherwise.
+      { :ok, [ ( { "key1", "val1" }(, { "key2", "val2 }(, ... ) ) ) ] in case of success,
+      { :error, message } otherwise.
   Example:
-    > ExSlp.Server.register("myservice://127.0.0.1", [ attr1: "val1", attr2: "val2" ])
-    {:ok, ""}
-    > ExSlp.Client.findattrs("service:myservice://127.0.0.1")
-    {:ok, [{"attr1", "val1"}, {"attr2", "val2"}]}
+      > ExSlp.Server.register("myservice://127.0.0.1", [ attr1: "val1", attr2: "val2" ])
+      {:ok, ""}
+      > ExSlp.Client.findattrs("service:myservice://127.0.0.1")
+      {:ok, [{"attr1", "val1"}, {"attr2", "val2"}]}
   """
   def findattrs( service_url ), do: findattrs( service_url, [], [] )
   def findattrs( service_url, opts ), do: findattrs( service_url, [], opts )
@@ -78,19 +78,19 @@ defmodule ExSlp.Client do
   `args` is a regular slptool keyword list, see ExSlp.Client.findsrvs/3
   for more details.
   Returns:
-    { :ok, [ ( service_type1(, service_type2(, ...) ) ) ] in case of success,
-    { :error, message } otherwise.
+      { :ok, [ ( service_type1(, service_type2(, ...) ) ) ] in case of success,
+      { :error, message } otherwise.
   Example:
-    > ExSlp.Server.register "myservice1://127.0.0.1"
-    {:ok, ""}
-    > ExSlp.Server.register "myservice2://127.0.0.1"
-    {:ok, ""}
-    > ExSlp.Client.findsrvtypes
-    {:ok, ["service:myservice1", "service:myservice2"]}
-    > ExSlp.Server.register "myservice3.x://127.0.0.1"
-    {:ok, ""}
-    > ExSlp.Client.findsrvtypes "x" # Note: we provide the authority here
-    {:ok, ["service:myservice3.x"]}
+      > ExSlp.Server.register "myservice1://127.0.0.1"
+      {:ok, ""}
+      > ExSlp.Server.register "myservice2://127.0.0.1"
+      {:ok, ""}
+      > ExSlp.Client.findsrvtypes
+      {:ok, ["service:myservice1", "service:myservice2"]}
+      > ExSlp.Server.register "myservice3.x://127.0.0.1"
+      {:ok, ""}
+      > ExSlp.Client.findsrvtypes "x" # Note: we provide the authority here
+      {:ok, ["service:myservice3.x"]}
   """
   def findsrvtypes, do: findsrvtypes( nil, [] )
   def findsrvtypes( authority ), do: findsrvtypes( authority, [] )

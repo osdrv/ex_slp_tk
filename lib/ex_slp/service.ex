@@ -14,9 +14,9 @@ defmodule ExSlp.Service do
   For more info on args see ExSlp.Server.register/3.
   For more info on opts see ExSlp.Server.register/3.
   Example: given the node name
-    node@192.168.0.10
+      node@192.168.0.10
   the service URL will look like:
-    service:exslp://node@192.168.0.10.
+      service:exslp://node@192.168.0.10.
   After being registered the node might be discovered by
   service type `exslp`.
   Make sure to call ExSlp.deregister/3 before the app termination
@@ -24,8 +24,8 @@ defmodule ExSlp.Service do
   slptool always use net.slp.watchRegistrationPID = false option
   to connect slpd.
   Returns
-    { :ok, resp } in case of success
-    { :error, message } otherwise.
+      { :ok, resp } in case of success
+      { :error, message } otherwise.
   """
   def register, do: register([], [])
   def register( opts ), do: register( [], opts )
@@ -40,8 +40,8 @@ defmodule ExSlp.Service do
   Make sure to call the method before the app termination.
   The service would remain registered otherwise.
   Returns:
-    { :ok, :resp } in case of success
-    { :error, message } otherwise.
+      { :ok, :resp } in case of success
+      { :error, message } otherwise.
   """
   def deregister, do: deregister([])
   def deregister( args ) do
@@ -62,9 +62,9 @@ defmodule ExSlp.Service do
   Given there are 2 nodes one@192.168.0.10 and two@192.168.0.20.
   Each registers itself as an exslp service.
   For node one the method returns
-    ["service:exslp://two@192.168.0.20,65535"]
+      ["service:exslp://two@192.168.0.20,65535"]
   For node two the metod returns
-    ["service:exslp://one@192.168.0.10,65535"]
+      ["service:exslp://one@192.168.0.10,65535"]
   The URLs returned are accepted as `service_url` parameter
   in ExSlp.Service.connect/1 method.
   """
