@@ -43,7 +43,7 @@ defmodule ExSlp.Util do
   the lifetime postfix.
   """
   def parse_url( url ) do
-    [ url, ttl ] = url |> String.replace( ~r/^service\:/, "" ) |> String.split(",")
+    [ url, _ttl ] = url |> String.replace( ~r/^service\:/, "" ) |> String.split(",")
     URI.parse( url )
   end
 
