@@ -6,3 +6,4 @@ erl_crash.dump
 *.swp
 *.swo
 *.beam
+*.tar
