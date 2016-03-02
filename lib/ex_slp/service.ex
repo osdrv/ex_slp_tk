@@ -34,6 +34,29 @@ defmodule ExSlp.Service do
   end
 
   @doc """
+  Checks whether the current node has been registered
+  as a service.
+  Takes 2 optional arguments: a keyword list of slptool
+  arguments and a keyword list of findsrvs command options.
+  Returns true if the authority of the current node
+  has been found in the list of the services.
+  """
+  def registered?, do: registered?( [], [] )
+  def registered?( opts ), do: registered?( [], opts )
+  def registered?( args, opts ) do
+    case res = Client.findsrvs( @service, args, opts ) do
+      { :ok, result } ->
+        my_authority = Atom.to_string Node.self
+        result
+          |> Enum.map( fn( url ) ->
+            Map.get( parse_url( url ), :authority )
+          end )
+          |> Enum.member?( my_authority )
+      _ -> res
+    end
+  end
+
+  @doc """
   Cancells the service registration initialized by
   ExSlp.Service.register command.
   Takes an optional list of slptool command arhuments.
