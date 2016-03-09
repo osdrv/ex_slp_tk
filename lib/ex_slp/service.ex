@@ -116,9 +116,12 @@ defmodule ExSlp.Service do
     Node.connect String.to_atom( authority )
   end
 
-  defp service_url do
-    "service:#{@service}://#{Node.self}"
+  def service_url, do: service_url Node.self
+
+  def service_url( node ) do
+    "service:#{@service}://#{node}"
   end
+
 
 end
 
