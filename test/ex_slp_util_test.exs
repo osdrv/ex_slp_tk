@@ -12,14 +12,21 @@ defmodule ExSlpUtilTest do
     assert "service:#{url}" == format_servise_url( url )
   end
 
-  test "format should return formatted args" do
+  @tag :v2
+  test "v2 format should return formatted args" do
     args = [ v: 1.01, s: "test_scope1", l: :en, t: 123, i: "10.77.13.240,192.168.250.240", u: "10.77.13.237" ]
     assert format_args( args ) == ["-v", "1.01", "-s", "test_scope1", "-l", "en", "-t", "123", "-i", "10.77.13.240,192.168.250.240", "-u", "10.77.13.237"]
   end
 
+  @tag :v1
+  test "v1 format should return formatted args" do
+    args = [ v: 1.01, s: "test_scope1", l: :en, t: 123, i: "10.77.13.240,192.168.250.240", u: "10.77.13.237" ]
+    assert format_args( args ) == ["-v", "1.01", "-s", "test_scope1", "-l", "en"]
+  end
+
   test "format_opts should return a formatted string" do
-    opts = [ v: 1.01, cluster: :generic, special: "none" ]
-    assert format_opts( opts ) == "\"(v=1.01),(cluster=generic),(special=none)\""
+    opts = [ v: 1.01, l: :en ]
+    assert format_opts( opts ) == "\"(v=1.01),(l=en)\""
   end
 
   test "parse_opts should return the keyword list" do

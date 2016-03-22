@@ -40,5 +40,27 @@ defmodule ExSlp.Tool do
     end
   end
 
+  def version do
+    case exec_cmd( [], "-v" ) do
+      { :ok, res } ->
+        case String.split( res, "\n" )
+          |> Enum.filter( fn str ->
+            Regex.match?( ~r/slptool\sversion/, str )
+          end )
+          |> List.first do
+            nil -> nil
+            version_str ->
+              case Regex.run( ~r/([\d\.]+)$/, version_str ) do
+                nil -> nil
+                [ _, ver ] -> ver |> String.split(".")
+                                  |> Enum.map( &String.to_integer/1 )
+                                  |> List.to_tuple
+                _ -> nil
+              end
+          end
+      _ -> nil
+    end
+  end
+
 end
 

@@ -50,6 +50,7 @@ defmodule ExSlpClientTest do
     assert { :ok, _ } = Server.deregister( service )
   end
 
+  @tag :v2
   test "Should get the list of the registered services" do
     service_type1 = "myservice1"
     service_type2 = "myservice2"
@@ -64,6 +65,7 @@ defmodule ExSlpClientTest do
     assert { :ok, _ } = Server.deregister( "#{service_type2}://localhost" )
   end
 
+  @tag :v2
   test "findsrvtypes should not return an empty string in an empty result" do
     args = [ u: "localhost" ]
     assert { :ok, _ } = Server.status
@@ -71,6 +73,7 @@ defmodule ExSlpClientTest do
     assert real_res == []
   end
 
+  @tag :v2
   test "Should get the list of the registered services with affinity" do
     service_type1 = "myservice1.aff1"
     service_type2 = "myservice2.aff2"
@@ -89,13 +92,15 @@ defmodule ExSlpClientTest do
     args = [ u: "localhost" ]
     assert { :ok, _ } = Server.status
     assert { :ok, real_res } = findscopes( args )
-    assert Enum.member? real_res, "DEFAULT"
+    real_res = Enum.map( real_res, &String.downcase/1 )
+    assert Enum.member? real_res, "default"
   end
 
   test "getproperty returns the value" do
     assert { :ok, _ } = Server.status
     assert { :ok, response } = getproperty( "net.slp.useScopes" )
-    assert response == "DEFAULT"
+    response = String.downcase response
+    assert response == "default"
   end
 
 end
