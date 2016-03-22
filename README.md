@@ -91,6 +91,7 @@ One could check the toolkit version running: `slptool -v`.
 
 Depending on the version one should disable version-specific tests, as:
 
+```
 slptool -v
 > slptool version = 2.0.0
 > libslp version = 2.0.0
@@ -98,6 +99,7 @@ slptool -v
 mix test --exclude v1
 > ...
 > Finished in 3.0 seconds (0.3s on load, 2.7s on tests)
+```
 
 Version 1 does not support extended command arguments as: interfaces and unicastic requests. Unicastic option allows you to query the local network interface only. Without this option slptool will send a multicast request to the local network and therefore running the test suit takes a while.
 
