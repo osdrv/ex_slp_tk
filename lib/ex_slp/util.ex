@@ -22,6 +22,7 @@ defmodule ExSlp.Util do
   Known args:
     slptool v1: v(ersion), s(cope), l(anguage)
     slptool v2: v(ersion), s(cope), l(anguage), t(ime), i(nterfaces), u(nicastic)
+  Unknown args would be dropped silently.
   """
   def format_args( args ) do
     args = case Tool.version do
@@ -30,7 +31,7 @@ defmodule ExSlp.Util do
           Enum.member?( @known_args_v1, k )
         end )
       { 2, _, _ } ->
-        Enum.filter( args, fn { k, v } ->
+        Enum.filter( args, fn { k, _v } ->
           Enum.member?( @known_args_v2, k )
         end )
       v -> raise "Version #{v} is no supported"

@@ -40,6 +40,20 @@ defmodule ExSlp.Tool do
     end
   end
 
+  @doc """
+    Gets the current slp toolkit version.
+    Returns:
+        { major, minor, patch } # if the toolkit is installed
+        nil # otherwise
+    Example:
+        ExSlp.Tool.version
+        > { 1, 2, 1 }
+
+        case ExSlp.Tool.version do
+          { 1, _, _ } -> # do v1 specific things
+          { 2, _, _ } -> # do v2 specific things
+        end
+  """
   def version do
     case exec_cmd( [], "-v" ) do
       { :ok, res } ->
