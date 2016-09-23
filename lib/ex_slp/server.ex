@@ -35,7 +35,7 @@ defmodule ExSlp.Server do
   Returns:
       { :ok, resp } # in case of success,
       { :error, message } # otherwise.
-  Example: 
+  Example:
       register( "myservice://192.168.0.10" )
       register( "service:myservice.xyz://192.168.0.10", [ attr1: val1, att2: val2 ] )
       register( "service:myservice.xyz://192.168.0.10", [ l: "en", t: 60 * 60], [] )
@@ -77,4 +77,3 @@ defmodule ExSlp.Server do
   end
 
 end
-

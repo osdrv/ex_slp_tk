@@ -17,7 +17,7 @@ This library is basically a binding for [slptool unix command](http://manpages.u
 The library provides some base modules which extend the distributed nature of Elixir by providing the zero-conf functionality.
 
 #### Example:
-Given 2 erlang nodes running. We want to connect the nodes with no prior knowledge of each other.
+Given 2 Erlang nodes running. We want to connect the nodes with no prior knowledge of each other.
 
 Node one:
 
@@ -79,9 +79,34 @@ iex(one@127.0.0.1)5> Node.list
 This is it. 2 erlang/elixir nodes are connected and we did it using a network multicast request.
 
 #### Dependencies:
+
+Basic requirements are
+
   * libslp  v1.2+
   * slptool v1.2+
   * Elixir  v1.1+
+
+To install OpenSLP  on debian-based systems something like this should do the trick:
+
+    sudo apt-get install slptool slpd libslp1
+    sudo /etc/init.d/slpd restart
+
+You could also use a docker image like [vcrhonek/openslp](https://hub.docker.com/r/vcrhonek/openslp/).  To run slpd as a daemon, you'll need a command like this:
+
+    docker run -d -p 427:427/tcp -p 427:427/udp --name openslp vcrhonek/openslp
+
+
+#### Settings:
+
+By default the ex_slp library will interact with the "slptool" command by assuming it is available as "slptool".  To change the details of that invocation, just add a section like this to your `config.exs` file:
+
+    config :ex_slp,
+      slptool: "/some/path/to/slptool"
+
+Or, you could invoke slptool with [a docker image](https://hub.docker.com/r/vcrhonek/openslp/):
+
+    config :ex_slp,
+      slptool: "docker run --rm vcrhonek/openslp slptool"
 
 #### Testing
 

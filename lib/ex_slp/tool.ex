@@ -1,6 +1,15 @@
 defmodule ExSlp.Tool do
 
-  @slptool "slptool"
+  @default_slptool "slptool"
+
+  @doc """
+  Returns a string that is used for invoking the slptool.
+  By default this is simply "slptool" per the standard debian package name, but config.exs may override the value
+  """
+  def slptool do
+    Application.get_env(
+      :ex_slp, :slptool, @default_slptool)
+  end
 
   @doc """
   Checks the status of `slptool` on the current system.
@@ -11,8 +20,9 @@ defmodule ExSlp.Tool do
       { :error, message } # otherwise
   """
   def status do
-    case System.find_executable(@slptool) do
-      nil -> { :cmd_unknown, "The command #{@slptool} could not be found. Check your $PATH ENV variable." }
+    {:ok, executable} = String.split(slptool) |> Enum.fetch(0)
+    case System.find_executable(executable) do
+      nil -> { :cmd_unknown, "The command #{executable} could not be found. Check your $PATH ENV variable." }
       { error, error_code } -> { :error, error, error_code }
       path ->
         path = String.strip( path )
@@ -33,10 +43,14 @@ defmodule ExSlp.Tool do
   """
   def exec_cmd( args, cmd ), do: exec_cmd( args, cmd, [] )
   def exec_cmd( args, cmd, opts ) do
-    case System.cmd( @slptool, args ++ [ cmd | opts ] ) do
-      { res, 0 } ->
-        { :ok, res |> String.strip }
-      { err, 1 } -> { :error, err |> String.strip }
+    # treat the slptool invocation string as if it might itself
+    # be a command followed by arguments For example:
+    # "docker run --rm vcrhonek/openslp slptool"
+    [invocation | initial_args] = String.split(slptool())
+    case System.cmd( invocation, initial_args ++ args ++ [ cmd | opts ] ) do
+        { res, 0 } ->
+          { :ok, res |> String.strip }
+        { err, 1 } -> { :error, err |> String.strip }
     end
   end
 
@@ -77,4 +91,3 @@ defmodule ExSlp.Tool do
   end
 
 end
-
