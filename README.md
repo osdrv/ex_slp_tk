@@ -78,6 +78,8 @@ iex(one@127.0.0.1)5> Node.list
 
 This is it. 2 erlang/elixir nodes are connected and we did it using a network multicast request.
 
+For more examples check out `examples` folder.
+
 #### Dependencies:
 
 Basic requirements are
