@@ -25,7 +25,7 @@ It all starts in start_link callback which immediately calls server method `disc
 20     res
 21   end
 ```
-Let's have a look on discover:
+Let's have a look at `discover` callback:
 
 ```elixir
 31   def handle_info( :discover, state ) do
