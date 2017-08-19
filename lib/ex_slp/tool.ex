@@ -20,7 +20,7 @@ defmodule ExSlp.Tool do
       { :error, message } # otherwise
   """
   def status do
-    {:ok, executable} = String.split(slptool) |> Enum.fetch(0)
+    {:ok, executable} = String.split(slptool()) |> Enum.fetch(0)
     case System.find_executable(executable) do
       nil -> { :cmd_unknown, "The command #{executable} could not be found. Check your $PATH ENV variable." }
       { error, error_code } -> { :error, error, error_code }

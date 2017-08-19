@@ -14,10 +14,10 @@ defmodule ExSlpServiceTest do
     assert { :ok, results } = Client.findsrvs( "exslp", args, [] )
     my_service = "service:exslp://#{Node.self},65535"
     assert ( ! Enum.member?( results, my_service ) )
-    register
+    register()
     assert { :ok, results } = Client.findsrvs( "exslp", args, [] )
     assert Enum.member?( results, my_service )
-    deregister
+    deregister()
     assert { :ok, results } = Client.findsrvs( "exslp", args, [] )
     assert ( ! Enum.member?( results, my_service ) )
   end
@@ -37,9 +37,9 @@ defmodule ExSlpServiceTest do
       { 1, _, _ } -> []
       { 2, _, _ } -> [ u: "127.0.0.1" ]
     end
-    register
+    register()
     assert registered?( args, [] ) == true
-    deregister
+    deregister()
     assert registered?( args, [] ) == false
   end
 

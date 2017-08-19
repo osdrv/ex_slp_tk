@@ -4,7 +4,6 @@ defmodule ExSlp.Service do
   import ExSlp.Util, only: [ parse_url: 1 ]
 
   @service "exslp"
-  @ttl     65535
 
   @doc """
   Registers a new SLP service with type `exslp` using
@@ -30,7 +29,7 @@ defmodule ExSlp.Service do
   def register, do: register([], [])
   def register( opts ), do: register( [], opts )
   def register( args, opts ) do
-    Server.register( service_url, args, opts )
+    Server.register( service_url(), args, opts )
   end
 
   @doc """
@@ -68,7 +67,7 @@ defmodule ExSlp.Service do
   """
   def deregister, do: deregister([])
   def deregister( args ) do
-    Server.deregister( service_url, args )
+    Server.deregister( service_url(), args )
   end
 
   @doc """
@@ -118,10 +117,9 @@ defmodule ExSlp.Service do
 
   def service_url, do: service_url Node.self
 
-  def service_url( node ) do
-    "service:#{@service}://#{node}"
+  def service_url( node, service \\ @service ) do
+    "service:#{service}://#{node}"
   end
-
 
 end
 
