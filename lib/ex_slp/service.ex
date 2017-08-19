@@ -6,11 +6,17 @@ defmodule ExSlp.Service do
   @service "exslp"
 
   @doc """
-  Registers a new SLP service with type `exslp` using
+  Registers a new SLP service with type using
   the current Node name as the authority.
   Takes 2 optional keyword list parameters: slptool arguments
   and the service options.
   For more info on args see ExSlp.Server.register/3.
+  Opts is a keyword list which is completely identical to the
+  one you would use in ExSlp.Server.register/3 except one argument:
+  `service`. This argument specifies the service type, which is
+  set to `exslp` by default. In order to properly deregister
+  a service on has to provide the service type once again (see
+  ExSlp.Service.deregister/3).
   For more info on opts see ExSlp.Server.register/3.
   Example: given the node name
       node@192.168.0.10
@@ -29,7 +35,8 @@ defmodule ExSlp.Service do
   def register, do: register([], [])
   def register( opts ), do: register( [], opts )
   def register( args, opts ) do
-    Server.register( service_url(), args, opts )
+    { service, opts } = Keyword.get_and_update( opts, :service, fn _ -> :pop end )
+    Server.register( service_url( Node.self, service || @service ), args, opts )
   end
 
   @doc """
@@ -58,7 +65,11 @@ defmodule ExSlp.Service do
   @doc """
   Cancells the service registration initialized by
   ExSlp.Service.register command.
-  Takes an optional list of slptool command arhuments.
+  Takes 2 optional keyword lists: opts and slptool arguments.
+  Opts might contain `service` key which corresponds to the
+  service type registered using ExSlp.Service.register/3.
+  Args is a standard extra argument list keyword you normally
+  provide while calling slptool deregister.
   Make sure to call the method before the app termination.
   The service would remain registered otherwise.
   Returns:
@@ -66,8 +77,10 @@ defmodule ExSlp.Service do
       { :error, message } otherwise.
   """
   def deregister, do: deregister([])
-  def deregister( args ) do
-    Server.deregister( service_url(), args )
+  def deregister( opts ), do: deregister( [], opts )
+  def deregister( args, opts ) do
+    { service, _ } = Keyword.get_and_update( opts, :service, fn _ -> :pop end )
+    Server.deregister( service_url( Node.self, service || @service ), args )
   end
 
   @doc """
@@ -117,8 +130,8 @@ defmodule ExSlp.Service do
 
   def service_url, do: service_url Node.self
 
-  def service_url( node, service \\ @service ) do
-    "service:#{service}://#{node}"
+  def service_url( cur_node, service \\ @service ) do
+    "service:#{service}://#{cur_node}"
   end
 
 end

@@ -22,6 +22,23 @@ defmodule ExSlpServiceTest do
     assert ( ! Enum.member?( results, my_service ) )
   end
 
+  test "`register` takes an optional `service` argument" do
+    service_type = "my_service"
+    args = case ExSlp.Tool.version do
+      { 1, _, _ } -> []
+      { 2, _, _ } -> [ u: "127.0.0.1" ]
+    end
+    assert { :ok, results } = Client.findsrvs( service_type, args, [] )
+    my_service = "service:#{service_type}://#{Node.self},65535"
+    assert ( ! Enum.member?( results, my_service ) )
+    register(service: service_type)
+    assert { :ok, results } = Client.findsrvs( service_type, args, [] )
+    assert Enum.member?( results, my_service )
+    deregister(service: service_type)
+    assert { :ok, results } = Client.findsrvs( service_type, args, [] )
+    assert ( ! Enum.member?( results, my_service ) )
+  end
+
   test "registered? returns false for an unregistered service" do
     args = case ExSlp.Tool.version do
       { 1, _, _ } -> []
@@ -42,6 +59,7 @@ defmodule ExSlpServiceTest do
     deregister()
     assert registered?( args, [] ) == false
   end
+
 
 end
 
